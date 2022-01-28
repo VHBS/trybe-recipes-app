@@ -1,18 +1,31 @@
 import React, { useState } from 'react';
 
 export default function ProfilePage() {
+  const [email] = useState('');
 
-return(
-    <input
-    name="email"
-    type="email"
-    >
-    </input>
-)
+  return (
+    <div>
+      <span data-testid="profile-email">{email}</span>
+      <button
+        type="button"
+        data-testid="profile-done-btn"
+      >
+        Receitas Feitas
+      </button>
+      <button
+        type="button"
+        data-testid="profile-favorite-btn"
+      >
+        Receitas Favoritas
+      </button>
+
+      <button
+        type="button"
+        data-testid="profile-logout-btn"
+      >
+        Sair
+      </button>
+
+    </div>
+  );
 }
-
-// //Todos o data-testid do email e de todos os botões
-// O elemento de email deve possuir o atributo data-testid="profile-email";
-// O botão para "Done Recipes" deve possuir o atributo data-testid="profile-done-btn";
-// O botão para "Favorite Recipes" deve possuir o atributo data-testid="profile-favorite-btn";
-// O botão de "Logout" deve possuir o atributo data-testid="profile-logout-btn".

@@ -1,20 +1,10 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 export default function Login() {
-  // const CHECK_PASSWORD = 6;
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  // const [ ]
-  // const history = useHistory();
-
-  // const validInput = 6;
-
-  // const checkEmail = () => {
-  //   if (email.includes('@') && email.includes('.com')) {
-  //     return console.log('email check');
-  //   }
-  // };
+  const history = useHistory();
 
   const validation = () => {
     let result = true;
@@ -30,9 +20,16 @@ export default function Login() {
     return result;
   };
 
+  const submission = () => {
+    localStorage.setItem('mealsToken', 1);
+    localStorage.setItem('cocktailsToken', 1);
+    localStorage.setItem('user', JSON.stringify({ email }));
+
+    history.push('/foods');
+  };
+
   return (
     <div>
-      <h1>ué</h1>
       <input
         data-testid="email-input"
         onChange={ (e) => setEmail(e.target.value) }
@@ -49,6 +46,7 @@ export default function Login() {
         disabled={ validation() }
         data-testid="login-submit-btn"
         type="button"
+        onClick={ () => submission() }
       >
         Enter
       </button>

@@ -6,7 +6,9 @@ export default function ProfilePage() {
 
   return (
     <div>
-      <Header title="Profile" /></div>
+      <div>
+        <Header title="Profile" />
+      </div>
       <span data-testid="profile-email">{email}</span>
       <button
         type="button"
@@ -27,6 +29,6 @@ export default function ProfilePage() {
       >
         Sair
       </button>
-
     </div>
   );
+}

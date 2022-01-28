@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import Header from '../components/Header';
 
 export default function ProfilePage() {
   const [email] = useState('');
 
   return (
     <div>
+      <Header title="Profile" /></div>
       <span data-testid="profile-email">{email}</span>
       <button
         type="button"
@@ -28,4 +30,3 @@ export default function ProfilePage() {
 
     </div>
   );
-}

@@ -26,6 +26,8 @@ function App() {
         <Route exact path="/" component={ Login } />
         <Route path="/foods" component={ PrincipalFoodPage } />
         <Route path="/drinks" component={ PrincipalDrinkPage } />
+        <Route exact path="/foods" component={ PrincipalFoodPage } />
+        <Route exact path="/drinks" component={ PrincipalDrinkPage } />
         <Route path="/foods/:id" component={ DetailsRecipeFood } />
         <Route path="/drinks/:id" component={ DetailsRecipeDrink } />
         <Route path="/comidas/:id/in-progress" component={ FoodInProgress } />
@@ -33,12 +35,16 @@ function App() {
         <Route path="/explore" component={ ExplorerPage } />
         <Route path="/explore/foods" component={ ExplorerFood } />
         <Route path="/explore/drinks" component={ ExplorerDrink } />
+        <Route exact path="/explore" component={ ExplorerPage } />
+        <Route exact path="/explore/foods" component={ ExplorerFood } />
+        <Route exact path="/explore/drinks" component={ ExplorerDrink } />
         <Route path="/explore/foods/ingredients" component={ ExploreByIngredientFood } />
         <Route
           path="/explore/drinks/ingredients"
           component={ ExploreByIngredientDrink }
         />
         <Route path="//explore/foods/nationalities" component={ ExploreFoodByLocal } />
+        <Route path="/explore/foods/nationalities" component={ ExploreFoodByLocal } />
         <Route path="/profile" component={ ProfilePage } />
         <Route path="/done-recipes" component={ DoneRecipes } />
         <Route path="/favorite-recipes" component={ FavoriteRecipes } />

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import RecepiesContext from '../context/RecepiesContext';
 
@@ -17,13 +17,17 @@ export default function CardRecepies() {
   const { resultAPI,
     setResultAPI, fiveFilter, setFiveFilter } = useContext(RecepiesContext);
   const history = useHistory();
+  const [toggleFilter, setToggleFilter] = useState('');
 
+  // Requisição dos dados.
+  const requisitionAPI = (url, setState) => {
+    fetch(`${url}`)
+      .then((response) => response.json())
+      .then((data) => setState(data));
+  };
+
+  // Ao carregar a página faz a verificação da URL e chama os valores iniciais solicitados
   useEffect(() => {
-    const requisitionAPI = (url, setState) => {
-      fetch(`${url}`)
-        .then((response) => response.json())
-        .then((data) => setState(data));
-    };
     if (history.location.pathname === '/foods') {
       requisitionAPI(FIVE_FILTER_FOOD, setFiveFilter);
       return requisitionAPI(PRINCIPAL_FOOD_API, setResultAPI);
@@ -32,25 +36,27 @@ export default function CardRecepies() {
     return requisitionAPI(PRINCIPAL_DRINK_API, setResultAPI);
   }, [history.location.pathname, setFiveFilter, setResultAPI]);
 
-  const requisitionByCategory = async (value, type) => {
-    if (type === 'meals') {
-      return fetch(`${FOODS_BY_CATEGORY}${value}`)
-        .then((response) => response.json())
-        .then((data) => setResultAPI(data));
+  const requisitionByCategory = (url, value) => {
+    if (value === toggleFilter) {
+      if (history.location.pathname === '/foods') {
+        return requisitionAPI(PRINCIPAL_FOOD_API, setResultAPI);
+      }
+      return requisitionAPI(PRINCIPAL_DRINK_API, setResultAPI);
     }
-    return fetch(`${DRINKS_BY_CATEGORY}${value}`)
+    setToggleFilter(value);
+    fetch(`${url}${value}`)
       .then((response) => response.json())
       .then((data) => setResultAPI(data));
   };
 
-  const fiveFilterMap = (array, type) => array.map((item, index) => (
+  const fiveFilterMap = (url, array) => array.map((item, index) => (
     <button
       data-testid={ `${item.strCategory}-category-filter` }
       type="button"
       key={ item.strCategory + index }
       value={ item.strCategory }
       onClick={ ({ target: { value } }) => requisitionByCategory(
-        value, type,
+        url, value,
       ) }
     >
       {item.strCategory}
@@ -59,34 +65,67 @@ export default function CardRecepies() {
 
   return (
     <div>
-      {fiveFilter.meals && fiveFilterMap(fiveFilter.meals.slice(0, FILTER_SIZE), 'meals')}
-
+      {fiveFilter.meals
+      && (
+        <div>
+          {/* Adiciona os buttons para filtrar o Foods */}
+          {fiveFilterMap(FOODS_BY_CATEGORY, fiveFilter.meals.slice(0, FILTER_SIZE))}
+          <button
+            data-testid="All-category-filter"
+            type="button"
+            onClick={ () => requisitionAPI(PRINCIPAL_FOOD_API, setResultAPI) }
+          >
+            All
+          </button>
+        </div>)}
+      {/* Renderiza os cards de foods */}
       {resultAPI.meals && resultAPI.meals.slice(0, MAX_QUANTITY).map((item, index) => ((
-        <div data-testid={ `${index}-recipe-card` } key={ item.idMeal }>
-          <p>{item.idMeal}</p>
+        <button
+          type="button"
+          onClick={ () => history.push(`/foods/${item.idMeal}`) }
+          data-testid={ `${index}-recipe-card` }
+          key={ item.idMeal }
+        >
           <h2 data-testid={ `${index}-card-name` }>{ item.strMeal }</h2>
           <img
+            width="100vw"
             data-testid={ `${index}-card-img` }
             src={ item.strMealThumb }
             alt={ item.strMeal }
           />
-        </div>)
+        </button>)
       ))}
-
-      {fiveFilter.drinks && fiveFilterMap(
-        fiveFilter.drinks.slice(0, FILTER_SIZE), 'drinks',
+      {/* Adiciona os buttons para filtrar o Drinks */}
+      {fiveFilter.drinks
+      && (
+        <div>
+          {fiveFilterMap(DRINKS_BY_CATEGORY, fiveFilter.drinks.slice(0, FILTER_SIZE))}
+          <button
+            data-testid="All-category-filter"
+            type="button"
+            onClick={ () => requisitionAPI(PRINCIPAL_DRINK_API, setResultAPI) }
+          >
+            All
+          </button>
+        </div>
       )}
-
+      {/* Renderiza os cards de drinks */}
       {resultAPI.drinks && resultAPI.drinks.slice(0, MAX_QUANTITY).map((item, index) => ((
-        <div data-testid={ `${index}-recipe-card` } key={ item.idDrink }>
-          <p>{item.idDrink}</p>
+        <button
+          type="button"
+          data-testid={ `${index}-recipe-card` }
+          key={ item.idDrink }
+          value={ item.idDrink }
+          onClick={ () => history.push(`/drinks/${item.idDrink}`) }
+        >
           <h2 data-testid={ `${index}-card-name` }>{ item.strDrink }</h2>
           <img
+            width="100vw"
             data-testid={ `${index}-card-img` }
             src={ item.strDrinkThumb }
             alt={ item.strDrink }
           />
-        </div>)
+        </button>)
       ))}
     </div>
   );

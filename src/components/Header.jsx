@@ -12,6 +12,7 @@ const FOOD_FIRST_LETTER_API = 'https://www.themealdb.com/api/json/v1/1/search.ph
 const DRINK_INGREDIENT_API = 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=';
 const DRINK_NAME_API = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
 const DRINK_FIRST_LETTER_API = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?f=';
+
 export default function Header(props) {
   const { setResultAPI } = useContext(RecepiesContext);
   const [showInput, setShowInput] = useState(false);
@@ -25,52 +26,67 @@ export default function Header(props) {
     history.push('/profile');
   };
 
-  const requisitionAPI = (url, type) => {
+  const requisitionAPI = (url) => {
     fetch(`${url}${inputTextVal}`)
       .then((response) => response.json())
       .then((data) => {
-        setResultAPI(data);
-        if (type === 'drink' && data.drinks.length === 1) {
-          history.push(`/drinks/${data.drinks[0].idDrink}`);
+        if (history.location.pathname === '/foods') {
+          if (data.meals === null) {
+            return global
+              .alert('Sorry, we haven\'t found any recipes for these filters.');
+          } if (data.meals.length === 1) {
+            return history.push(`/foods/${data.meals[0].idMeal}`);
+          }
+          return setResultAPI(data);
         }
-        if (type === 'meals' && data.meals.length === 1) {
-          history.push(`/foods/${data.meals[0].idMeal}`);
+        if (data.drinks === null) {
+          return global
+            .alert('Sorry, we haven\'t found any recipes for these filters.');
         }
+        if (data.drinks.length === 1) {
+          return history.push(`/drinks/${data.drinks[0].idDrink}`);
+        }
+        return setResultAPI(data);
       });
   };
 
   const searchFoods = () => {
     if (inputRadioVal === 'ingredient') {
-      requisitionAPI(FOOD_INGREDIENT_API, 'meals');
+      requisitionAPI(FOOD_INGREDIENT_API);
     }
     if (inputRadioVal === 'name') {
-      requisitionAPI(FOOD_NAME_API, 'meals');
+      requisitionAPI(FOOD_NAME_API);
     }
     if (inputRadioVal === 'first-letter') {
       if (inputTextVal.length > 1) {
         return global.alert('Your search must have only 1 (one) character');
       }
-      requisitionAPI(FOOD_FIRST_LETTER_API, 'meals');
+      requisitionAPI(FOOD_FIRST_LETTER_API);
     }
   };
 
   const searchDrinks = () => {
     if (inputRadioVal === 'ingredient') {
-      requisitionAPI(DRINK_INGREDIENT_API, 'drink');
+      requisitionAPI(DRINK_INGREDIENT_API);
     }
     if (inputRadioVal === 'name') {
-      requisitionAPI(DRINK_NAME_API, 'drink');
+      requisitionAPI(DRINK_NAME_API);
     }
     if (inputRadioVal === 'first-letter') {
       if (inputTextVal.length > 1) {
         return global.alert('Your search must have only 1 (one) character');
       }
-      requisitionAPI(DRINK_FIRST_LETTER_API, 'drink');
+      requisitionAPI(DRINK_FIRST_LETTER_API);
     }
   };
 
   const handleSearch = () => {
     if (history.location.pathname === '/foods') {
+      // console.log(resultAPI);
+      // if (resultAPI.meals === null) {
+      //   global.alert('Sorry, we haven\'t found any recipes for these filters.');
+      // return console.log(!!resultAPI.meals, resultAPI.meals.length);
+      // }
       return searchFoods();
     }
     return searchDrinks();
@@ -148,8 +164,7 @@ export default function Header(props) {
             </button>
           </div>
         </div>
-      ) }
-
+      )}
     </header>
   );
 }

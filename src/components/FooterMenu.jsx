@@ -18,7 +18,6 @@ export default function FooterMenu() {
   const redirectToFoods = () => {
     history.push('/foods');
   };
- 
   return (
     <footer id="footer" data-testid="footer">
       <button

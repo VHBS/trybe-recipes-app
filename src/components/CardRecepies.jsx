@@ -10,6 +10,9 @@ const FIVE_FILTER_FOOD = 'https://www.themealdb.com/api/json/v1/1/list.php?c=lis
 const FIVE_FILTER_DRINK = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';
 const FILTER_SIZE = 5;
 
+const FOODS_BY_CATEGORY = 'https://www.themealdb.com/api/json/v1/1/filter.php?c=';
+const DRINKS_BY_CATEGORY = 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=';
+
 export default function CardRecepies() {
   const { resultAPI,
     setResultAPI, fiveFilter, setFiveFilter } = useContext(RecepiesContext);
@@ -29,11 +32,26 @@ export default function CardRecepies() {
     return requisitionAPI(PRINCIPAL_DRINK_API, setResultAPI);
   }, [history.location.pathname, setFiveFilter, setResultAPI]);
 
-  const fiveFilterMap = (array) => array.map((item, index) => (
+  const requisitionByCategory = async (value, type) => {
+    if (type === 'meals') {
+      return fetch(`${FOODS_BY_CATEGORY}${value}`)
+        .then((response) => response.json())
+        .then((data) => setResultAPI(data));
+    }
+    return fetch(`${DRINKS_BY_CATEGORY}${value}`)
+      .then((response) => response.json())
+      .then((data) => setResultAPI(data));
+  };
+
+  const fiveFilterMap = (array, type) => array.map((item, index) => (
     <button
       data-testid={ `${item.strCategory}-category-filter` }
       type="button"
       key={ item.strCategory + index }
+      value={ item.strCategory }
+      onClick={ ({ target: { value } }) => requisitionByCategory(
+        value, type,
+      ) }
     >
       {item.strCategory}
     </button>
@@ -41,7 +59,7 @@ export default function CardRecepies() {
 
   return (
     <div>
-      {fiveFilter.meals && fiveFilterMap(fiveFilter.meals.slice(0, FILTER_SIZE))}
+      {fiveFilter.meals && fiveFilterMap(fiveFilter.meals.slice(0, FILTER_SIZE), 'meals')}
 
       {resultAPI.meals && resultAPI.meals.slice(0, MAX_QUANTITY).map((item, index) => ((
         <div data-testid={ `${index}-recipe-card` } key={ item.idMeal }>
@@ -55,7 +73,9 @@ export default function CardRecepies() {
         </div>)
       ))}
 
-      {fiveFilter.drinks && fiveFilterMap(fiveFilter.drinks.slice(0, FILTER_SIZE))}
+      {fiveFilter.drinks && fiveFilterMap(
+        fiveFilter.drinks.slice(0, FILTER_SIZE), 'drinks',
+      )}
 
       {resultAPI.drinks && resultAPI.drinks.slice(0, MAX_QUANTITY).map((item, index) => ((
         <div data-testid={ `${index}-recipe-card` } key={ item.idDrink }>

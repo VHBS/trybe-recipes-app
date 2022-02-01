@@ -28,7 +28,8 @@ export default function DetailsRecipeFood() {
             }
           }
           setIngredients(ingredientsArr);
-        });
+        })
+        .catch(() => []);
     };
 
     requisitionById(DETAILS_FOOD_API, id);

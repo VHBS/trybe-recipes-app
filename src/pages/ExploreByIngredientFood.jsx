@@ -9,7 +9,7 @@ const MAGIC_NUMBER = 12;
 export default function ExploreByIngredientFood() {
   const { mealIngredients, setMealIngredients } = useContext(RecepiesContext);
 
-  const imgSrc = (i) => `https://www.themealdb.com/images/ingredients/${i}-small.png`;
+  const imgSrc = (i) => `https://www.themealdb.com/images/ingredients/${i}-Small.png`;
 
   useEffect(() => {
     const fetchIngredients = () => fetch(ALL_INGREDIENTS_API)

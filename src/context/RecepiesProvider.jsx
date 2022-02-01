@@ -7,6 +7,7 @@ export default function Provider({ children }) {
   const [fiveFilter, setFiveFilter] = useState([]);
   const [mealIngredients, setMealIngredients] = useState([]);
   const [drinkIngredients, setDrinkIngredients] = useState([]);
+  const [fromExploreRecipes, setFromExploreRecipes] = useState([]);
 
   const context = {
     resultAPI,
@@ -17,6 +18,8 @@ export default function Provider({ children }) {
     setMealIngredients,
     drinkIngredients,
     setDrinkIngredients,
+    fromExploreRecipes,
+    setFromExploreRecipes,
   };
 
   return (

@@ -1,4 +1,5 @@
 import React, { useContext, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import FooterMenu from '../components/FooterMenu';
 import Header from '../components/Header';
 import RecepiesContext from '../context/RecepiesContext';
@@ -8,6 +9,7 @@ const MAGIC_NUMBER = 12;
 
 export default function ExploreByIngredientDrink() {
   const { drinkIngredients, setDrinkIngredients } = useContext(RecepiesContext);
+  const history = useHistory();
 
   const imgSrc = (i) => `https://www.thecocktaildb.com/images/ingredients/${i}-Small.png`;
 
@@ -22,6 +24,13 @@ export default function ExploreByIngredientDrink() {
     fetchIngredients();
   }, [setDrinkIngredients]);
 
+  const handleRedirect = (value) => {
+    history.push({
+      pathname: '/drinks',
+      state: value,
+    });
+  };
+
   return (
     <div>
       <Header title="Explore Ingredients" />
@@ -31,6 +40,7 @@ export default function ExploreByIngredientDrink() {
             type="button"
             key={ e.strIngredient1 }
             data-testid={ `${i}-ingredient-card` }
+            onClick={ () => handleRedirect(`D${e.strIngredient1}`) }
           >
             <h2 data-testid={ `${i}-card-name` }>{ e.strIngredient1 }</h2>
             <img

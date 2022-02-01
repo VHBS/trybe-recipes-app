@@ -5,8 +5,23 @@ import RecepiesContext from './RecepiesContext';
 export default function Provider({ children }) {
   const [resultAPI, setResultAPI] = useState([]);
   const [fiveFilter, setFiveFilter] = useState([]);
+  const [mealIngredients, setMealIngredients] = useState([]);
+  const [drinkIngredients, setDrinkIngredients] = useState([]);
+  const [fromExploreRecipes, setFromExploreRecipes] = useState([]);
 
-  const context = { resultAPI, setResultAPI, fiveFilter, setFiveFilter };
+  const context = {
+    resultAPI,
+    setResultAPI,
+    fiveFilter,
+    setFiveFilter,
+    mealIngredients,
+    setMealIngredients,
+    drinkIngredients,
+    setDrinkIngredients,
+    fromExploreRecipes,
+    setFromExploreRecipes,
+  };
+
   return (
     <RecepiesContext.Provider value={ context }>
       {children}

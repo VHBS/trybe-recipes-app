@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 
 const DETAILS_DRINK_API = 'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=';
 const INGREDIENT_QUANTITY = 20;
@@ -11,6 +11,7 @@ export default function DetailsRecipeDrink() {
   const [ingredients, setIngredients] = useState([]);
   const [recomendation, setRecomendation] = useState([]);
   const { id } = useParams();
+  const history = useHistory();
   let product;
 
   useEffect(() => {
@@ -74,7 +75,14 @@ export default function DetailsRecipeDrink() {
           <p data-testid="recipe-category">{product.strAlcoholic}</p>
           <p data-testid="instructions">{product.strInstructions}</p>
           <p>{product.strAlcoholic}</p>
-          <button data-testid="start-recipe-btn" type="button">Iniciar Receita</button>
+          <button
+            data-testid="start-recipe-btn"
+            type="button"
+            className="init-recepie"
+            onClick={ () => history.push(`/drinks/${id}/in-progress`) }
+          >
+            Start Recipe
+          </button>
           <div className="recomendation-container">
             {recomendation && recomendation.map((item, index) => (
               <div

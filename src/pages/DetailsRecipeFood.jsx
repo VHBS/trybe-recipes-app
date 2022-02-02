@@ -1,5 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import ShareButton from '../components/ShareButton';
+import StartButton from '../components/StartButton';
 import RecepiesContext from '../context/RecepiesContext';
 
 const DETAILS_FOOD_API = 'https://www.themealdb.com/api/json/v1/1/lookup.php?i=';
@@ -12,7 +14,6 @@ export default function DetailsRecipeFood() {
   const [ingredients, setIngredients] = useState([]);
   const [recomendation, setRecomendation] = useState([]);
   const { id } = useParams();
-  const history = useHistory();
   let product;
 
   useEffect(() => {
@@ -60,9 +61,7 @@ export default function DetailsRecipeFood() {
             alt={ product.strMeal }
           />
           <h2 data-testid="recipe-title">{product.strMeal}</h2>
-          <button data-testid="share-btn" type="button">
-            compartilhar
-          </button>
+          <ShareButton />
           <p data-testid="recipe-category">{product.strCategory}</p>
           { ingredients.map((item, index) => (
             <p
@@ -82,14 +81,7 @@ export default function DetailsRecipeFood() {
             title="video"
             data-testid="video"
           />
-          <button
-            data-testid="start-recipe-btn"
-            type="button"
-            className="init-recepie"
-            onClick={ () => history.push(`/foods/${id}/in-progress`) }
-          >
-            Start Recipe
-          </button>
+          <StartButton />
           <div className="recomendation-container">
             {recomendation && recomendation.map((item, index) => (
               <div

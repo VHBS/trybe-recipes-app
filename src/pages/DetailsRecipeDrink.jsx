@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import ShareButton from '../components/ShareButton';
 import StartButton from '../components/StartButton';
 import RecepiesContext from '../context/RecepiesContext';
 
@@ -59,9 +60,7 @@ export default function DetailsRecipeDrink() {
             alt={ product.strDrink }
           />
           <h2 data-testid="recipe-title">{product.strDrink}</h2>
-          <button data-testid="share-btn" type="button">
-            compartilhar
-          </button>
+          <ShareButton />
           <p data-testid="recipe-category">{product.strCategory}</p>
           { ingredients.map((item, index) => (
             <p

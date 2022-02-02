@@ -81,7 +81,7 @@ export default function DetailsRecipeFood() {
             title="video"
             data-testid="video"
           />
-          <StartButton />
+          <StartButton ingredients={ ingredients } />
           <div className="recomendation-container">
             {recomendation && recomendation.map((item, index) => (
               <div

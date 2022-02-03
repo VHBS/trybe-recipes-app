@@ -10,7 +10,7 @@ export default function StartButton({ ingredients }) {
   useEffect(() => {
     const recepiesInProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
     if (!recepiesInProgress) {
-      const startNewRecepie = { meals: { }, cocktails: {} };
+      const startNewRecepie = { meals: {}, cocktails: {} };
       localStorage.setItem('inProgressRecipes', JSON.stringify(startNewRecepie));
       return setRecepieInProgress(false);
     }

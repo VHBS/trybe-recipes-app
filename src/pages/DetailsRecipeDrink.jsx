@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import FavoriteButton from '../components/FavoriteButton';
 import ShareButton from '../components/ShareButton';
 import StartButton from '../components/StartButton';
 import RecepiesContext from '../context/RecepiesContext';
@@ -70,7 +71,7 @@ export default function DetailsRecipeDrink() {
               {item}
             </p>
           )) }
-          <button data-testid="favorite-btn" type="button"> Favoritar</button>
+          <FavoriteButton />
           <p data-testid="recipe-category">{product.strAlcoholic}</p>
           <p data-testid="instructions">{product.strInstructions}</p>
           <p>{product.strAlcoholic}</p>

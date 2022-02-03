@@ -15,11 +15,11 @@ export default function StartButton({ ingredients }) {
       return setRecepieInProgress(false);
     }
     if (history.location.pathname.includes('foods')
-    && recepiesInProgress.meals[id] !== undefined) {
+      && recepiesInProgress.meals[id] !== undefined) {
       return setRecepieInProgress(true);
     }
     if (history.location.pathname.includes('drinks')
-      || recepiesInProgress.cocktails[id] !== undefined) {
+      && recepiesInProgress.cocktails[id] !== undefined) {
       return setRecepieInProgress(true);
     }
   }, [history.location.pathname, id]);

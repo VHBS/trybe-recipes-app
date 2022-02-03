@@ -70,5 +70,6 @@ export default function FoodInProgress() {
           </button>
         </>
       )}
-    </div>);
+    </div>
+  );
 }

@@ -54,12 +54,14 @@ export default function FoodInProgress() {
           <FavoriteButton />
           <p data-testid="recipe-category">{product.strCategory}</p>
           { ingredients.map((item, index) => (
-            <p
+            <label
+              htmlFor={ `${index} item` }
               data-testid={ `${index}-ingredient-step` }
               key={ item + index }
             >
+              <input id={ `${index} item` } type="checkbox" />
               {item}
-            </p>
+            </label>
           )) }
           <p data-testid="instructions">{product.strInstructions}</p>
           <button

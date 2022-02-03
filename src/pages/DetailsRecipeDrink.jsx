@@ -1,5 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import FavoriteButton from '../components/FavoriteButton';
+import ShareButton from '../components/ShareButton';
+import StartButton from '../components/StartButton';
+import RecepiesContext from '../context/RecepiesContext';
 
 const DETAILS_DRINK_API = 'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=';
 const INGREDIENT_QUANTITY = 20;
@@ -7,7 +11,7 @@ const RECOMENDATION = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
 const RECOMENDATION_SIZE = 6;
 
 export default function DetailsRecipeDrink() {
-  const [detailProduct, setDetailProduct] = useState({});
+  const { detailProduct, setDetailProduct } = useContext(RecepiesContext);
   const [ingredients, setIngredients] = useState([]);
   const [recomendation, setRecomendation] = useState([]);
   const { id } = useParams();
@@ -20,7 +24,6 @@ export default function DetailsRecipeDrink() {
         .then((data) => {
           const ingredientsArr = [];
           setDetailProduct(data);
-          console.log(data);
           for (let i = 1; i < INGREDIENT_QUANTITY; i += 1) {
             const igred = data.drinks[0][`strIngredient${i}`];
             const quantity = data.drinks[0][`strMeasure${i}`];
@@ -41,7 +44,7 @@ export default function DetailsRecipeDrink() {
         });
     };
     recomendationFetch();
-  }, [id, setRecomendation]);
+  }, [id, setDetailProduct, setRecomendation]);
 
   if (detailProduct.drinks) {
     const { drinks: [firstItem] } = detailProduct;
@@ -58,9 +61,7 @@ export default function DetailsRecipeDrink() {
             alt={ product.strDrink }
           />
           <h2 data-testid="recipe-title">{product.strDrink}</h2>
-          <button data-testid="share-btn" type="button">
-            compartilhar
-          </button>
+          <ShareButton />
           <p data-testid="recipe-category">{product.strCategory}</p>
           { ingredients.map((item, index) => (
             <p
@@ -70,11 +71,11 @@ export default function DetailsRecipeDrink() {
               {item}
             </p>
           )) }
-          <button data-testid="favorite-btn" type="button"> Favoritar</button>
+          <FavoriteButton />
           <p data-testid="recipe-category">{product.strAlcoholic}</p>
           <p data-testid="instructions">{product.strInstructions}</p>
           <p>{product.strAlcoholic}</p>
-          <button data-testid="start-recipe-btn" type="button">Iniciar Receita</button>
+          <StartButton ingredients={ ingredients } />
           <div className="recomendation-container">
             {recomendation && recomendation.map((item, index) => (
               <div

@@ -7,3 +7,7 @@
   width: 100%;
 }
 
+.init-recepie {
+  bottom: 0;
+  position: fixed;
+}

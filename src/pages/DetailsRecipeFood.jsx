@@ -1,5 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import FavoriteButton from '../components/FavoriteButton';
+import ShareButton from '../components/ShareButton';
+import StartButton from '../components/StartButton';
+import RecepiesContext from '../context/RecepiesContext';
 
 const DETAILS_FOOD_API = 'https://www.themealdb.com/api/json/v1/1/lookup.php?i=';
 const INGREDIENT_QUANTITY = 20;
@@ -7,7 +11,7 @@ const RECOMENDATION = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=
 const RECOMENDATION_SIZE = 6;
 
 export default function DetailsRecipeFood() {
-  const [detailProduct, setDetailProduct] = useState({});
+  const { detailProduct, setDetailProduct } = useContext(RecepiesContext);
   const [ingredients, setIngredients] = useState([]);
   const [recomendation, setRecomendation] = useState([]);
   const { id } = useParams();
@@ -18,13 +22,13 @@ export default function DetailsRecipeFood() {
       fetch(`${url}${value}`)
         .then((response) => response.json())
         .then((data) => {
-          const ingredientsArr = [];
           setDetailProduct(data);
+          const ingredientsArr = [];
           for (let i = 1; i < INGREDIENT_QUANTITY; i += 1) {
-            if (data.meals[0][`strIngredient${i}`] !== '') {
-              ingredientsArr
-                .push(`${data
-                  .meals[0][`strIngredient${i}`]} - ${data.meals[0][`strMeasure${i}`]}`);
+            const igred = data.meals[0][`strIngredient${i}`];
+            const quantity = data.meals[0][`strMeasure${i}`];
+            if (igred !== '' && igred !== null && igred !== undefined) {
+              ingredientsArr.push(`${igred} - ${quantity}`);
             }
           }
           setIngredients(ingredientsArr);
@@ -41,7 +45,7 @@ export default function DetailsRecipeFood() {
         });
     };
     recomendationFetch();
-  }, [id, setRecomendation]);
+  }, [id, setDetailProduct, setRecomendation]);
 
   if (detailProduct.meals) {
     const { meals: [firstItem] } = detailProduct;
@@ -58,9 +62,7 @@ export default function DetailsRecipeFood() {
             alt={ product.strMeal }
           />
           <h2 data-testid="recipe-title">{product.strMeal}</h2>
-          <button data-testid="share-btn" type="button">
-            compartilhar
-          </button>
+          <ShareButton />
           <p data-testid="recipe-category">{product.strCategory}</p>
           { ingredients.map((item, index) => (
             <p
@@ -70,7 +72,7 @@ export default function DetailsRecipeFood() {
               {item}
             </p>
           )) }
-          <button data-testid="favorite-btn" type="button"> Favoritar</button>
+          <FavoriteButton />
           <p data-testid="recipe-category">{product.strCategory}</p>
           <p data-testid="instructions">{product.strInstructions}</p>
           <iframe
@@ -80,7 +82,7 @@ export default function DetailsRecipeFood() {
             title="video"
             data-testid="video"
           />
-          <button data-testid="start-recipe-btn" type="button">Iniciar Receita</button>
+          <StartButton ingredients={ ingredients } />
           <div className="recomendation-container">
             {recomendation && recomendation.map((item, index) => (
               <div

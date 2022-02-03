@@ -23,8 +23,8 @@ export default function Provider({ children }) {
     setFromExploreRecipes,
     detailProduct,
     setDetailProduct,
-  };
 
+  };
   return (
     <RecepiesContext.Provider value={ context }>
       {children}

@@ -23,6 +23,7 @@ export default function ShareButton({ done, index }) {
           data-testid="share-btn"
           type="button"
           onClick={ handleClick }
+          src={ shareIcon }
         >
           <img src={ shareIcon } alt="share button" />
         </button>)
@@ -31,6 +32,7 @@ export default function ShareButton({ done, index }) {
             data-testid={ `${index}-horizontal-share-btn` }
             type="button"
             onClick={ handleClick }
+            src={ shareIcon }
           >
             <img src={ shareIcon } alt="share button" />
           </button>

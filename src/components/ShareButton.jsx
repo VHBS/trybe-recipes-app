@@ -1,10 +1,11 @@
+import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import shareIcon from '../images/shareIcon.svg';
 
 const copy = require('clipboard-copy');
 
-export default function ShareButton() {
+export default function ShareButton({ done, index }) {
   const [showCopy, setShowCopy] = useState(false);
   const location = useLocation();
 
@@ -17,16 +18,32 @@ export default function ShareButton() {
 
   return (
     <div>
-      <button
-        data-testid="share-btn"
-        type="button"
-        onClick={ handleClick }
-      >
-        <img src={ shareIcon } alt="share button" />
-      </button>
+      {!done === 'done' ? (
+        <button
+          data-testid="share-btn"
+          type="button"
+          onClick={ handleClick }
+        >
+          <img src={ shareIcon } alt="share button" />
+        </button>)
+        : (
+          <button
+            data-testid={ `${index}-horizontal-share-btn` }
+            type="button"
+            onClick={ handleClick }
+          >
+            <img src={ shareIcon } alt="share button" />
+          </button>
+        )}
+
       {showCopy && (
         <p>Link copied!</p>
       )}
     </div>
   );
 }
+
+ShareButton.propTypes = {
+  done: PropTypes.string,
+  index: PropTypes.number.isNotRequired,
+}.isNotRequired;

@@ -42,6 +42,37 @@ export default function DrinkInProgress() {
     product = firstItem;
   }
 
+  const finishRecipeClick = () => {
+    let doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
+    if (!doneRecipes) {
+      doneRecipes = [{
+        id: product.idDrink,
+        type: 'drink',
+        nationality: '',
+        category: product.strCategory,
+        alcoholicOrNot: product.strAlcoholic,
+        name: product.strDrink,
+        image: product.strDrinkThumb,
+        doneDate: '',
+        tags: product.strTags,
+      }];
+    } else {
+      doneRecipes = [...doneRecipes, {
+        id: product.idMeal,
+        type: 'food',
+        nationality: product.strArea,
+        category: product.strCategory,
+        alcoholicOrNot: '',
+        name: product.strMeal,
+        image: product.strMealThumb,
+        doneDate: '',
+        tags: product.strTags,
+      }];
+    }
+    localStorage.setItem('doneRecipes', JSON.stringify(doneRecipes));
+    history.push('/done-recipes');
+  };
+
   return (
     <div>
       {product && (
@@ -64,7 +95,7 @@ export default function DrinkInProgress() {
             data-testid="finish-recipe-btn"
             type="button"
             disabled={ doneRecipe }
-            onClick={ () => history.push('/done-recipes') }
+            onClick={ finishRecipeClick }
           >
             Finish Recipe
           </button>

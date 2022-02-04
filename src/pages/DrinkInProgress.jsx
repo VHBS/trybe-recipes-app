@@ -54,19 +54,19 @@ export default function DrinkInProgress() {
         name: product.strDrink,
         image: product.strDrinkThumb,
         doneDate: '',
-        tags: product.strTags,
+        tags: [product.strTags],
       }];
     } else {
       doneRecipes = [...doneRecipes, {
-        id: product.idMeal,
-        type: 'food',
-        nationality: product.strArea,
+        id: product.idDrink,
+        type: 'drink',
+        nationality: '',
         category: product.strCategory,
-        alcoholicOrNot: '',
-        name: product.strMeal,
-        image: product.strMealThumb,
+        alcoholicOrNot: product.strAlcoholic,
+        name: product.strDrink,
+        image: product.strDrinkThumb,
         doneDate: '',
-        tags: product.strTags,
+        tags: [product.strTags],
       }];
     }
     localStorage.setItem('doneRecipes', JSON.stringify(doneRecipes));

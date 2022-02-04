@@ -24,7 +24,6 @@ export default function InputsRecipesProgressDrink({ ingredients, setDoneRecipe 
 
   useEffect(() => {
     const recepiesInProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
-    console.log(!recepiesInProgress);
     if (!recepiesInProgress) {
       return localStorage.setItem('inProgressRecipes', JSON
         .stringify({ cocktails: { [id]: [] }, meals: { } }));

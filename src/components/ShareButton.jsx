@@ -5,14 +5,22 @@ import shareIcon from '../images/shareIcon.svg';
 
 const copy = require('clipboard-copy');
 
-export default function ShareButton({ done, index }) {
+export default function ShareButton({ done, index, item }) {
   const [showCopy, setShowCopy] = useState(false);
   const location = useLocation();
 
-  const handleClick = () => {
-    console.log(location);
+  const handleClickShare = () => {
     const link = location.pathname.replace('/in-progress', '');
     copy(`http://localhost:3000${link}`);
+    setShowCopy(true);
+  };
+
+  const handleClickDone = () => {
+    if (item.type === 'drink') {
+      copy(`http://localhost:3000/drinks/${item.id}`);
+    } else {
+      copy(`http://localhost:3000/foods/${item.id}`);
+    }
     setShowCopy(true);
   };
 
@@ -22,7 +30,7 @@ export default function ShareButton({ done, index }) {
         <button
           data-testid="share-btn"
           type="button"
-          onClick={ handleClick }
+          onClick={ handleClickShare }
           src={ shareIcon }
         >
           <img src={ shareIcon } alt="share button" />
@@ -31,7 +39,7 @@ export default function ShareButton({ done, index }) {
           <button
             data-testid={ `${index}-horizontal-share-btn` }
             type="button"
-            onClick={ handleClick }
+            onClick={ handleClickDone }
             src={ shareIcon }
           >
             <img src={ shareIcon } alt="share button" />
@@ -48,4 +56,5 @@ export default function ShareButton({ done, index }) {
 ShareButton.propTypes = {
   done: PropTypes.string,
   index: PropTypes.number.isNotRequired,
-}.isNotRequired;
+  item: PropTypes.any,
+}.isRequired;

@@ -17,21 +17,28 @@ export default function DetailsRecipeDrink() {
   const { id } = useParams();
   let product;
 
+  const ingredientsFunc = (ingredient) => {
+    const ingredientsArr = [];
+    for (let i = 1; i < INGREDIENT_QUANTITY; i += 1) {
+      const igred = ingredient[`strIngredient${i}`];
+      const quantity = ingredient[`strMeasure${i}`];
+      if (igred !== '' && igred !== null && igred !== undefined
+      && quantity !== '' && quantity !== null && quantity !== undefined) {
+        ingredientsArr.push(`${igred} - ${quantity}`);
+      } else if (igred !== '' && igred !== null && igred !== undefined) {
+        ingredientsArr.push(`${igred}`);
+      }
+    }
+    setIngredients(ingredientsArr);
+  };
+
   useEffect(() => {
     const requisitionById = (url, value) => {
       fetch(`${url}${value}`)
         .then((response) => response.json())
         .then((data) => {
-          const ingredientsArr = [];
           setDetailProduct(data);
-          for (let i = 1; i < INGREDIENT_QUANTITY; i += 1) {
-            const igred = data.drinks[0][`strIngredient${i}`];
-            const quantity = data.drinks[0][`strMeasure${i}`];
-            if (igred !== '' && igred !== null && igred !== undefined) {
-              ingredientsArr.push(`${igred} - ${quantity}`);
-            }
-          }
-          setIngredients(ingredientsArr);
+          ingredientsFunc(data.drinks[0]);
         });
     };
 

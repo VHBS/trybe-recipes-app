@@ -1,13 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { Link } from 'react-router-dom';
 import ShareButton from './ShareButton';
 
 export default function CardDoneRecipeDrink({ recipe: { item, index } }) {
   return (
     <div>
-      <button
+      <Link
+        to={ `/drinks/${item.id}` }
         type="button"
-        key={ item.name + index }
       >
         <img
           data-testid={ `${index}-horizontal-image` }
@@ -29,7 +30,6 @@ export default function CardDoneRecipeDrink({ recipe: { item, index } }) {
         >
           {item.doneDate}
         </p>
-        <ShareButton done="done" index={ index } />
         {item.tags.map((tagName) => (
           <p
             key={ tagName }
@@ -38,7 +38,8 @@ export default function CardDoneRecipeDrink({ recipe: { item, index } }) {
             {tagName}
           </p>
         ))}
-      </button>
+      </Link>
+      <ShareButton done="done" index={ index } item={ item } />
     </div>
   );
 }

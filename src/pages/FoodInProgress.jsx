@@ -55,7 +55,7 @@ export default function FoodInProgress() {
         name: product.strMeal,
         image: product.strMealThumb,
         doneDate: '',
-        tags: product.strTags,
+        tags: [product.strTags],
       }];
     } else {
       doneRecipes = [...doneRecipes, {
@@ -67,7 +67,7 @@ export default function FoodInProgress() {
         name: product.strMeal,
         image: product.strMealThumb,
         doneDate: '',
-        tags: product.strTags,
+        tags: [product.strTags],
       }];
     }
     localStorage.setItem('doneRecipes', JSON.stringify(doneRecipes));

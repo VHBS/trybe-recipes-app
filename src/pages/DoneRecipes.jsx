@@ -9,7 +9,24 @@ export default function DoneRecipes() {
   useEffect(() => {
     const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
     setDoneRecipesState(doneRecipes);
-  }, [doneRecipesState]);
+  }, [setDoneRecipesState]);
+
+  const filterByAll = () => {
+    const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
+    setDoneRecipesState(doneRecipes);
+  };
+
+  const filterByFood = () => {
+    const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'))
+      .filter((item) => item.type === 'food');
+    setDoneRecipesState(doneRecipes);
+  };
+
+  const filterByDrink = () => {
+    const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'))
+      .filter((item) => item.type === 'drink');
+    setDoneRecipesState(doneRecipes);
+  };
 
   return (
     <div>
@@ -17,26 +34,37 @@ export default function DoneRecipes() {
       <button
         data-testid="filter-by-all-btn"
         type="button"
+        onClick={ filterByAll }
       >
         All
       </button>
       <button
         data-testid="filter-by-food-btn"
         type="button"
+        onClick={ filterByFood }
       >
         Food
       </button>
       <button
         data-testid="filter-by-drink-btn"
         type="button"
+        onClick={ filterByDrink }
       >
         Drinks
       </button>
       { doneRecipesState.length > 0
         && doneRecipesState.map((item, index) => (
           item.type === 'food'
-            ? <CardDoneRecipeFood recipe={ { item, index } } />
-            : <CardDoneRecipeDrink recipe={ { item, index } } />
+            ? (
+              <CardDoneRecipeFood
+                key={ item.name + index }
+                recipe={ { item, index } }
+              />)
+            : (
+              <CardDoneRecipeDrink
+                key={ item.name + index }
+                recipe={ { item, index } }
+              />)
         ))}
     </div>);
 }

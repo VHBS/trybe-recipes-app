@@ -2,17 +2,18 @@ import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-export default function InputsRecipesProgress({ ingredients }) {
+export default function InputsRecipesProgressDrink({ ingredients }) {
   const [checkProgress, setCheckProgress] = useState([]);
   const { id } = useParams();
 
   const updateLocalStorage = ({ target }) => {
     const recepiesInProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
-    if (recepiesInProgress.meals[id].includes(target.value)) {
-      recepiesInProgress.meals[id] = recepiesInProgress.meals[id]
+    if (recepiesInProgress.cocktails[id].includes(target.value)) {
+      recepiesInProgress.cocktails[id] = recepiesInProgress.cocktails[id]
         .filter((item) => item !== target.value);
     } else {
-      recepiesInProgress.meals[id] = [...recepiesInProgress.meals[id], target.value];
+      recepiesInProgress
+        .cocktails[id] = [...recepiesInProgress.cocktails[id], target.value];
     }
     localStorage.setItem('inProgressRecipes', JSON.stringify(recepiesInProgress));
   };
@@ -22,12 +23,11 @@ export default function InputsRecipesProgress({ ingredients }) {
     console.log(!recepiesInProgress);
     if (!recepiesInProgress) {
       localStorage.setItem('inProgressRecipes', JSON
-        .stringify({ cocktails: {}, meals: { [id]: [] } }));
+        .stringify({ cocktails: { [id]: [] }, meals: { } }));
       return setCheckProgress([]);
     }
-    setCheckProgress(recepiesInProgress.meals[id]);
+    setCheckProgress(recepiesInProgress.cocktails[id]);
   }, [id, setCheckProgress]);
-
   return (
     <div>
       { ingredients.map((item, index) => (
@@ -55,9 +55,10 @@ export default function InputsRecipesProgress({ ingredients }) {
           {item}
         </label>
       ))}
-    </div>);
+    </div>
+  );
 }
 
-InputsRecipesProgress.propTypes = {
+InputsRecipesProgressDrink.propTypes = {
   ingredients: PropTypes.arrayOf(PropTypes.string),
 }.isRequired;

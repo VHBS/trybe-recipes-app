@@ -1,8 +1,8 @@
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 
-export default function StartButton({ ingredients }) {
+export default function StartButton() {
   const [recepieInProgress, setRecepieInProgress] = useState(false);
   const { id } = useParams();
   const history = useHistory();
@@ -28,7 +28,7 @@ export default function StartButton({ ingredients }) {
     history.push(`/foods/${id}/in-progress`);
     const recepiesInProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
     const startNewRecepie = { ...recepiesInProgress,
-      meals: { ...recepiesInProgress.meals, [id]: ingredients },
+      meals: { ...recepiesInProgress.meals, [id]: [] },
     };
     localStorage.setItem('inProgressRecipes', JSON.stringify(startNewRecepie));
   };
@@ -37,7 +37,7 @@ export default function StartButton({ ingredients }) {
     history.push(`/drinks/${id}/in-progress`);
     const recepiesInProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
     const startRecepie = { ...recepiesInProgress,
-      cocktails: { ...recepiesInProgress.cocktails, [id]: ingredients } };
+      cocktails: { ...recepiesInProgress.cocktails, [id]: [] } };
     localStorage.setItem('inProgressRecipes', JSON.stringify(startRecepie));
   };
 
@@ -71,6 +71,6 @@ export default function StartButton({ ingredients }) {
   );
 }
 
-StartButton.propTypes = {
-  ingredients: PropTypes.string,
-}.isRequired;
+// StartButton.propTypes = {
+//   ingredients: PropTypes.string,
+// }.isRequired;

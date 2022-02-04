@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import FavoriteButton from '../components/FavoriteButton';
+import InputsRecipesProgress from '../components/InputsRecipesProgress';
 import ShareButton from '../components/ShareButton';
 import RecepiesContext from '../context/RecepiesContext';
 
@@ -53,16 +54,9 @@ export default function FoodInProgress() {
           <ShareButton />
           <FavoriteButton />
           <p data-testid="recipe-category">{product.strCategory}</p>
-          { ingredients.map((item, index) => (
-            <label
-              htmlFor={ `${index} item` }
-              data-testid={ `${index}-ingredient-step` }
-              key={ item + index }
-            >
-              <input id={ `${index} item` } type="checkbox" />
-              {item}
-            </label>
-          )) }
+          <div id="ingredients-container">
+            <InputsRecipesProgress ingredients={ ingredients } />
+          </div>
           <p data-testid="instructions">{product.strInstructions}</p>
           <button
             data-testid="finish-recipe-btn"

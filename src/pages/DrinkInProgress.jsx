@@ -41,7 +41,6 @@ export default function DrinkInProgress() {
 
   return (
     <div>
-      {console.log(product)}
       {product && (
         <>
           <img

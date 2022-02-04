@@ -11,6 +11,7 @@ export default function CardDoneRecipeFood({ recipe: { item, index } }) {
         type="button"
       >
         <img
+          className="done-recipe-img"
           data-testid={ `${index}-horizontal-image` }
           src={ item.image }
           alt={ item.name }

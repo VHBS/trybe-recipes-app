@@ -11,6 +11,7 @@ const INGREDIENT_QUANTITY = 20;
 export default function FoodInProgress() {
   const { detailProduct, setDetailProduct } = useContext(RecepiesContext);
   const [ingredients, setIngredients] = useState([]);
+  const [doneRecipe, setDoneRecipe] = useState(true);
   const { id } = useParams();
   let product;
 
@@ -55,12 +56,16 @@ export default function FoodInProgress() {
           <FavoriteButton />
           <p data-testid="recipe-category">{product.strCategory}</p>
           <div id="ingredients-container">
-            <InputsRecipesProgressFood ingredients={ ingredients } />
+            <InputsRecipesProgressFood
+              ingredients={ ingredients }
+              setDoneRecipe={ setDoneRecipe }
+            />
           </div>
           <p data-testid="instructions">{product.strInstructions}</p>
           <button
             data-testid="finish-recipe-btn"
             type="button"
+            disabled={ doneRecipe }
           >
             Finish Recipe
           </button>

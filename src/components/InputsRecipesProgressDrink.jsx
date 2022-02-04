@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-export default function InputsRecipesProgressDrink({ ingredients }) {
+export default function InputsRecipesProgressDrink({ ingredients, setDoneRecipe }) {
   const [checkProgress, setCheckProgress] = useState([]);
   const { id } = useParams();
 
@@ -16,15 +16,18 @@ export default function InputsRecipesProgressDrink({ ingredients }) {
         .cocktails[id] = [...recepiesInProgress.cocktails[id], target.value];
     }
     localStorage.setItem('inProgressRecipes', JSON.stringify(recepiesInProgress));
+    if (recepiesInProgress.cocktails[id].length === ingredients.length) {
+      return setDoneRecipe(false);
+    }
+    setDoneRecipe(true);
   };
 
   useEffect(() => {
     const recepiesInProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
     console.log(!recepiesInProgress);
     if (!recepiesInProgress) {
-      localStorage.setItem('inProgressRecipes', JSON
+      return localStorage.setItem('inProgressRecipes', JSON
         .stringify({ cocktails: { [id]: [] }, meals: { } }));
-      return setCheckProgress([]);
     }
     setCheckProgress(recepiesInProgress.cocktails[id]);
   }, [id, setCheckProgress]);

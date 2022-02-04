@@ -9,7 +9,9 @@ export default function ShareButton() {
   const location = useLocation();
 
   const handleClick = () => {
-    copy(`http://localhost:3000${location.pathname}`);
+    console.log(location);
+    const link = location.pathname.replace('/in-progress', '');
+    copy(`http://localhost:3000${link}`);
     setShowCopy(true);
   };
 

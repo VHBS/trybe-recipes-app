@@ -26,6 +26,7 @@ export default function FavoriteRecipes() {
 
   return (
     <div>
+      {console.log('teste')}
       <Header title="Favorite Recipes" />
       <button
         data-testid="filter-by-all-btn"

@@ -15,6 +15,14 @@ export default function FavoriteRecipes() {
     setFavoriteState(favoriteRecipes);
   }, [setFavoriteState]);
 
+  const desfavoriteClick = (param) => {
+    const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    const newFavoritesRecipes = favoriteRecipes.filter((item) => item.id !== param);
+    localStorage.setItem('favoriteRecipes', JSON
+      .stringify(newFavoritesRecipes));
+    setFavoriteState(newFavoritesRecipes);
+  };
+
   return (
     <div>
       <Header title="Favorite Recipes" />
@@ -43,29 +51,31 @@ export default function FavoriteRecipes() {
         && favoriteState.map((item, index) => (
           item.type === 'food'
             ? (
-              <div>
+              <div
+                key={ item.name + index }
+              >
                 <CardDoneRecipeFood
-                  key={ item.name + index }
                   recipe={ { item, index } }
                 />
                 <button
                   data-testid={ `${index}-horizontal-favorite-btn` }
                   type="button"
                   src={ blackHeartIcon }
+                  onClick={ () => desfavoriteClick(item.id) }
                 >
                   <img src={ blackHeartIcon } alt={ item.name } />
                 </button>
               </div>)
             : (
-              <div>
+              <div key={ item.name + index }>
                 <CardDoneRecipeDrink
-                  key={ item.name + index }
                   recipe={ { item, index } }
                 />
                 <button
                   data-testid={ `${index}-horizontal-favorite-btn` }
                   type="button"
                   src={ blackHeartIcon }
+                  onClick={ () => desfavoriteClick(item.id) }
                 >
                   <img src={ blackHeartIcon } alt={ item.name } />
                 </button>

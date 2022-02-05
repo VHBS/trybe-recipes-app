@@ -10,7 +10,8 @@ export default function ShareButton({ index, item }) {
   const location = useLocation();
 
   const checkLocation = () => {
-    if (location.pathname.includes('/done-recipes')) {
+    if (location.pathname.includes('/done-recipes')
+    || location.pathname.includes('/favorite-recipes')) {
       if (item.type === 'drink') {
         copy(`http://localhost:3000/drinks/${item.id}`);
       } else {
@@ -25,15 +26,17 @@ export default function ShareButton({ index, item }) {
 
   return (
     <div>
-      {!location.pathname.includes('/done-recipes') ? (
-        <button
-          data-testid="share-btn"
-          type="button"
-          onClick={ checkLocation }
-          src={ shareIcon }
-        >
-          <img src={ shareIcon } alt="share button" />
-        </button>)
+      {!location.pathname.includes('/done')
+      && !location.pathname.includes('/favorite')
+        ? (
+          <button
+            data-testid="share-btn"
+            type="button"
+            onClick={ checkLocation }
+            src={ shareIcon }
+          >
+            <img src={ shareIcon } alt="share button" />
+          </button>)
         : (
           <button
             data-testid={ `${index}-horizontal-share-btn` }

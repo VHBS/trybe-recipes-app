@@ -4,7 +4,7 @@ import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import RecepiesContext from '../context/RecepiesContext';
 
-export default function FavoriteButton() {
+export default function FavoriteButtonDetails() {
   const [favorited, setFavorited] = useState(false);
   const { detailProduct } = useContext(RecepiesContext);
   const location = useLocation();

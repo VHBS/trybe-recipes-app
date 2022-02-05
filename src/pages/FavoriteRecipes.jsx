@@ -6,6 +6,7 @@ import blackHeartIcon from '../images/blackHeartIcon.svg';
 
 export default function FavoriteRecipes() {
   const [favoriteState, setFavoriteState] = useState([]);
+  const [filterType, setFilterType] = useState('');
 
   useEffect(() => {
     const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
@@ -29,58 +30,59 @@ export default function FavoriteRecipes() {
       <button
         data-testid="filter-by-all-btn"
         type="button"
-        // onClick={ filterByAll }
+        onClick={ () => setFilterType('') }
       >
         All
       </button>
       <button
         data-testid="filter-by-food-btn"
         type="button"
-        // onClick={ filterByFood }
+        onClick={ () => setFilterType('food') }
       >
         Food
       </button>
       <button
         data-testid="filter-by-drink-btn"
         type="button"
-        // onClick={ filterByDrink }
+        onClick={ () => setFilterType('drink') }
       >
         Drinks
       </button>
       { favoriteState.length > 0
-        && favoriteState.map((item, index) => (
-          item.type === 'food'
-            ? (
-              <div
-                key={ item.name + index }
-              >
-                <CardDoneRecipeFood
-                  recipe={ { item, index } }
-                />
-                <button
-                  data-testid={ `${index}-horizontal-favorite-btn` }
-                  type="button"
-                  src={ blackHeartIcon }
-                  onClick={ () => desfavoriteClick(item.id) }
+        && favoriteState.filter((item) => item.type.includes(filterType))
+          .map((item, index) => (
+            item.type === 'food'
+              ? (
+                <div
+                  key={ item.name + index }
                 >
-                  <img src={ blackHeartIcon } alt={ item.name } />
-                </button>
-              </div>)
-            : (
-              <div key={ item.name + index }>
-                <CardDoneRecipeDrink
-                  recipe={ { item, index } }
-                />
-                <button
-                  data-testid={ `${index}-horizontal-favorite-btn` }
-                  type="button"
-                  src={ blackHeartIcon }
-                  onClick={ () => desfavoriteClick(item.id) }
-                >
-                  <img src={ blackHeartIcon } alt={ item.name } />
-                </button>
-              </div>
-            )
-        ))}
+                  <CardDoneRecipeFood
+                    recipe={ { item, index } }
+                  />
+                  <button
+                    data-testid={ `${index}-horizontal-favorite-btn` }
+                    type="button"
+                    src={ blackHeartIcon }
+                    onClick={ () => desfavoriteClick(item.id) }
+                  >
+                    <img src={ blackHeartIcon } alt={ item.name } />
+                  </button>
+                </div>)
+              : (
+                <div key={ item.name + index }>
+                  <CardDoneRecipeDrink
+                    recipe={ { item, index } }
+                  />
+                  <button
+                    data-testid={ `${index}-horizontal-favorite-btn` }
+                    type="button"
+                    src={ blackHeartIcon }
+                    onClick={ () => desfavoriteClick(item.id) }
+                  >
+                    <img src={ blackHeartIcon } alt={ item.name } />
+                  </button>
+                </div>
+              )
+          ))}
     </div>);
 }

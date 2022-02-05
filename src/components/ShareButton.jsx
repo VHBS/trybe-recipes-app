@@ -5,32 +5,31 @@ import shareIcon from '../images/shareIcon.svg';
 
 const copy = require('clipboard-copy');
 
-export default function ShareButton({ done, index, item }) {
+export default function ShareButton({ index, item }) {
   const [showCopy, setShowCopy] = useState(false);
   const location = useLocation();
 
-  const handleClickShare = () => {
-    const link = location.pathname.replace('/in-progress', '');
-    copy(`http://localhost:3000${link}`);
-    setShowCopy(true);
-  };
-
-  const handleClickDone = () => {
-    if (item.type === 'drink') {
-      copy(`http://localhost:3000/drinks/${item.id}`);
+  const checkLocation = () => {
+    if (location.pathname.includes('/done-recipes')) {
+      if (item.type === 'drink') {
+        copy(`http://localhost:3000/drinks/${item.id}`);
+      } else {
+        copy(`http://localhost:3000/foods/${item.id}`);
+      }
     } else {
-      copy(`http://localhost:3000/foods/${item.id}`);
+      const link = location.pathname.replace('/in-progress', '');
+      copy(`http://localhost:3000${link}`);
     }
     setShowCopy(true);
   };
 
   return (
     <div>
-      {!done === 'done' ? (
+      {!location.pathname.includes('/done-recipes') ? (
         <button
           data-testid="share-btn"
           type="button"
-          onClick={ handleClickShare }
+          onClick={ checkLocation }
           src={ shareIcon }
         >
           <img src={ shareIcon } alt="share button" />
@@ -39,7 +38,7 @@ export default function ShareButton({ done, index, item }) {
           <button
             data-testid={ `${index}-horizontal-share-btn` }
             type="button"
-            onClick={ handleClickDone }
+            onClick={ checkLocation }
             src={ shareIcon }
           >
             <img src={ shareIcon } alt="share button" />
@@ -54,7 +53,6 @@ export default function ShareButton({ done, index, item }) {
 }
 
 ShareButton.propTypes = {
-  done: PropTypes.string,
   index: PropTypes.number.isNotRequired,
   item: PropTypes.any,
 }.isRequired;

@@ -40,7 +40,7 @@ export default function CardDoneRecipeFood({ recipe: { item, index } }) {
           </p>
         ))}
       </Link>
-      <ShareButton done="done" index={ index } item={ item } />
+      <ShareButton index={ index } item={ item } />
     </div>
   );
 }

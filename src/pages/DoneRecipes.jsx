@@ -8,7 +8,9 @@ export default function DoneRecipes() {
 
   useEffect(() => {
     const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
-    setDoneRecipesState(doneRecipes);
+    if (doneRecipes) {
+      setDoneRecipesState(doneRecipes);
+    }
   }, [setDoneRecipesState]);
 
   const filterByAll = () => {

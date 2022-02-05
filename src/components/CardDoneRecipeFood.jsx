@@ -31,7 +31,7 @@ export default function CardDoneRecipeFood({ recipe: { item, index } }) {
         >
           {item.doneDate}
         </p>
-        {item.tags.map((tagName) => (
+        {item.tags && item.tags.map((tagName) => (
           <p
             key={ tagName }
             data-testid={ `${index}-${tagName}-horizontal-tag` }

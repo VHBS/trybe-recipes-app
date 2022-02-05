@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import FavoriteButton from '../components/FavoriteButton';
+import FavoriteButtonDetails from '../components/FavoriteButtonDetails';
 import InputsRecipesProgressFood from '../components/InputsRecipesProgressFood';
 import ShareButton from '../components/ShareButton';
 import RecepiesContext from '../context/RecepiesContext';
@@ -85,7 +85,7 @@ export default function FoodInProgress() {
           />
           <h2 data-testid="recipe-title">{product.strMeal}</h2>
           <ShareButton />
-          <FavoriteButton />
+          <FavoriteButtonDetails />
           <p data-testid="recipe-category">{product.strCategory}</p>
           <div id="ingredients-container">
             <InputsRecipesProgressFood

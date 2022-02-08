@@ -1,10 +1,21 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import FooterMenu from '../components/FooterMenu';
 import Header from '../components/Header';
+import ExplorerButton from '../components/ExplorerButton';
+import { getRandomFood } from '../Services/UseAPI';
 
 export default function ExplorerFood() {
+  const [resultAPI, setResultAPI] = useState([]);
   const history = useHistory();
+
+  useEffect(() => {
+    async function fetchAPI() {
+      const result = await getRandomFood().then((response) => response);
+      setResultAPI(result[0]);
+    }
+    fetchAPI();
+  }, []);
 
   const redirectToExpIngr = () => {
     history.push('/explore/foods/ingredients');
@@ -35,13 +46,12 @@ export default function ExplorerFood() {
       >
         By Nationality
       </button>
-      <button
-        data-testid="explore-surprise"
-        type="button"
+      <ExplorerButton
+        dataTestid="explore-surprise"
+        route={ `/foods/${resultAPI.idMeal}` }
+        text="Surprise me!"
         onClick={ redirectToFoodDetails }
-      >
-        Surprise me!
-      </button>
+      />
       <FooterMenu />
     </div>
   );

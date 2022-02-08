@@ -1,17 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import FooterMenu from '../components/FooterMenu';
 import Header from '../components/Header';
+import ExplorerButton from '../components/ExplorerButton';
+import { getRandomDrink } from '../Services/UseAPI';
 
 export default function ExplorerDrink() {
+  const [resultAPI, setResultAPI] = useState([]);
   const history = useHistory();
+
+  useEffect(() => {
+    async function fetchAPI() {
+      const result = await getRandomDrink().then((response) => response);
+      setResultAPI(result[0]);
+    }
+    fetchAPI();
+  }, []);
 
   const redirectToExpDrink = () => {
     history.push('/explore/drinks/ingredients');
   };
 
   const redirectToDrinkDetails = () => {
-    history.push('/drinks/:id');
+    history.push(`/drinks/${resultAPI.idDrink}`);
   };
   return (
     <div>
@@ -23,13 +34,12 @@ export default function ExplorerDrink() {
       >
         By Ingredient
       </button>
-      <button
-        data-testid="explore-surprise"
-        type="button"
+      <ExplorerButton
+        dataTestid="explore-surprise"
+        route={ `/drinks/${resultAPI.idDrink}` }
+        text="Surprise me!"
         onClick={ redirectToDrinkDetails }
-      >
-        Surprise me!
-      </button>
+      />
       <FooterMenu />
     </div>);
 }
